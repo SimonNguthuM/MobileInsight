@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const ReviewList = ({ reviews }) => {
   const [editingReviewId, setEditingReviewId] = useState(null); // Track which review is being edited
   const [updatedComment, setUpdatedComment] = useState('');
-  const [updatedRating, setUpdatedRating] = useState('');
+  const [updatedRating, setUpdatedRating] = useState();
 
   const handleEdit = (review) => {
     setEditingReviewId(review.id);  // Set the review being edited
@@ -46,6 +46,27 @@ const ReviewList = ({ reviews }) => {
       console.error('Error:', error);
     }
   };
+  const handleDelete = async (reviewId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5555/reviews/${reviewId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Error deleting the review');
+      }
+
+      console.log('Deleted review:', reviewId);
+
+      // Update the reviews list locally after the delete request succeeds
+      // This is where you would update the state to remove the deleted review.
+      // If you manage the state here, you'd want to filter it.
+      // You might need to implement a parent function to handle this.
+      window.location.reload(); // Reload to reflect changes
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   if (!reviews || reviews.length === 0) {
     return <p>No reviews available for this product.</p>;
@@ -79,6 +100,7 @@ const ReviewList = ({ reviews }) => {
               <div>
                 <strong>{review.user.username}</strong>: {review.comment} (Rating: {review.rating})
                 <button onClick={() => handleEdit(review)}>Edit</button>
+                <button onClick={() => handleDelete(review.id)}>Delete</button>
               </div>
             )}
           </li>

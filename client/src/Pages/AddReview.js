@@ -1,59 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const AddReviewForm = ({ productId, onReviewAdded }) => {
-  const [user_id, setUserId]=useState('')
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('');
+  const [user_id, setUserId] = useState("");
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState("");
+  const [product_id, setProductId]=useState("")
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newReview = {
-      user_id:parseInt(user_id),
+      user_id: parseInt(user_id),
       comment,
       rating: parseInt(rating),
-      product_id: productId, 
+      product_id: parseInt(product_id),
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:5555/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newReview),
-      });
+      const response = await fetch(
+        `http://127.0.0.1:5555/reviews/${productId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newReview),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to add review');
+        throw new Error("Failed to add review");
       }
 
       const data = await response.json();
-      console.log('New review added:', data);
+      console.log("New review added:", data);
 
       // Call the callback to update the review list with the new review
       onReviewAdded(data);
 
       // Clear form inputs
-      setComment('');
-      setRating('');
+      setComment("");
+      setRating("");
       setError(null);
     } catch (error) {
-      console.error('Error:', error);
-      setError('Failed to add review. Please try again.');
+      console.error("Error:", error);
+      setError("Failed to add review. Please try again.");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h3>Add Your Review</h3>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <div>
         <label>userId:</label>
         <textarea
           value={user_id}
           onChange={(e) => setUserId(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>productId:</label>
+        <input
+          type="number"
+          value={product_id}
+          onChange={(e) => setProductId(e.target.value)}
           required
         />
       </div>
