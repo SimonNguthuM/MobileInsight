@@ -116,9 +116,9 @@ class Products(Resource):
 class ProductById(Resource):
     def get(self, id):
         
-        # if 'user_id' not in session:
-        #     return {"message":"Please log in to access this resource!"},403
-        product=Product.query.filter(Product.id==id).first()
+        if 'user_id' not in session:
+            return {"message":"Please log in to access this resource!"},403
+        product = Product.query.filter(Product.id==id).first()
         
         if product:
             product_dict=product.to_dict()
@@ -151,6 +151,8 @@ class ProductById(Resource):
 
 class ReviewsById(Resource):
     def get(self,id):
+        if 'user_id' not in session:
+            return {"message": "Please log in to access this resource!"}, 403
         review=Review.query.filter(Review.id==id).first()
         
         if review:
@@ -200,6 +202,9 @@ class ReviewsById(Resource):
 
 class Reviews(Resource):
         def post(self):
+            if 'user_id' not in session:
+               return {"message": "Please log in to access this resource!"}, 403
+
             new_review = Review(
                 user_id=request.json.get('user_id'),
                 product_id=request.json.get('product_id'),
