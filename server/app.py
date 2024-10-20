@@ -134,8 +134,8 @@ class ReviewsById(Resource):
             return error_message
         
         try:
-            for attr in request.form:
-               setattr(review ,attr, request.form.get(attr))
+            for attr in request.json:
+               setattr(review ,attr, request.json.get(attr))
                
             db.session.add(review)
             db.session.commit()
@@ -151,18 +151,31 @@ class ReviewsById(Resource):
          
                
     def delete(self, id):
-        review=Review.querry.filter(Review.id==id).first()
+        review=Review.query.filter(Review.id==id).first()
         
         db.session.delete(review)
         db.session.commit()
+        
+        response_dict={'message': 'review successfully deleted'}
+        response=make_response(response_dict, 200)
+        return response
+    
 
 class Reviews(Resource):
         def post(self):
-            data = request.get_json()
-            new_review = Review(user_id=data['user_id'], product_id=data['product_id'], rating=data['rating'], comment=data['comment'])
+            new_review = Review(
+                user_id=request.json.get('user_id'),
+                product_id=request.json.get('product_id'),
+                rating=request.json.get('rating'), 
+                comment=request.json.get('comment')
+                )
             db.session.add(new_review)
             db.session.commit()
-            return jsonify({"id": new_review.id, "user_id": new_review.user_id, "product_id": new_review.product_id, "rating": new_review.rating, "comment": new_review.comment}), 201
+            
+            review_dict=new_review.to_dict()
+            response=make_response(review_dict, 201)
+            
+            return(response)
     
 
 api.add_resource(ReviewsById, '/reviews/<int:id>')
