@@ -54,6 +54,24 @@ class Users(Resource):
         return {
             "message": "User successfully created!"
         }
+    
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            return {"error": "User not found"}, 404
+        data = request.get_json()
+        for key, value in data.items():
+            setattr(user, key, value)
+        db.session.commit()
+        return {"message": "User updated successfully!"}, 200
+
+    def delete(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            return {"error": "User not found"}, 404
+        db.session.delete(user)
+        db.session.commit()
+        return {"message": "User deleted successfully!"}, 200
         
         
 @app.route("/login", methods=["POST"])
@@ -95,7 +113,7 @@ class Products(Resource):
         db.session.commit()
         return jsonify({"id": new_product.id, "name": new_product.name, "price": new_product.price}), 201
     
-class ProductBYId(Resource):
+class ProductById(Resource):
     def get(self, id):
         
         # if 'user_id' not in session:
@@ -111,6 +129,25 @@ class ProductBYId(Resource):
             status = 404
             
         return make_response(body, status)
+    
+    def patch(self, id):
+        product = Product.query.filter_by(id=id).first()
+        if not product:
+            return {"error": "Product not found"}, 404
+        data = request.get_json()
+        for key, value in data.items():
+            setattr(product, key, value)
+        db.session.commit()
+        return {"message": "Product updated successfully!"}, 200
+
+    def delete(self, id):
+        product = Product.query.filter_by(id=id).first()
+        if not product:
+            return {"error": "Product not found"}, 404
+        db.session.delete(product)
+        db.session.commit()
+        return {"message": "Product deleted successfully!"}, 200
+
 
 class ReviewsById(Resource):
     def get(self,id):
@@ -151,7 +188,7 @@ class ReviewsById(Resource):
          
                
     def delete(self, id):
-        review=Review.querry.filter(Review.id==id).first()
+        review=Review.query.filter(Review.id==id).first()
         
         db.session.delete(review)
         db.session.commit()
@@ -168,7 +205,7 @@ class Reviews(Resource):
 api.add_resource(ReviewsById, '/reviews/<int:id>')
 api.add_resource(Users, '/users')
 api.add_resource(Products, '/products')
-api.add_resource(ProductBYId, '/products/<int:id>')
+api.add_resource(ProductById, '/products/<int:id>')
 api.add_resource(Reviews, '/reviews')
 
 if __name__ == '__main__':
