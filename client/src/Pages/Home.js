@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
 function Home() {
-  // state management
+  // State management
   const [pageOne, setPageOne] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -30,6 +30,7 @@ function Home() {
           <em>click here</em>
         </Link>
       </p>
+
       <Footer />
     </div>
   );

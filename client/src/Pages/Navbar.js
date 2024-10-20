@@ -25,6 +25,7 @@ function Navbar({ onSearch }) {
       <a type="button" href="/" className="btn  btn-lg">MobileInsight</a>
       <a type="button" href="/About" className="btn">About</a>
       <a type="button" href="/Login" className="btn">Log-in</a>
+       <a type="button" href="/signup" className="btn">Sign Up</a>
       <button type="button" className="btn" onClick={handleLogout}>logout</button>
 
       </div>
