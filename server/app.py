@@ -116,14 +116,17 @@ class Products(Resource):
 class ProductById(Resource):
     def get(self, id):
         
-        if 'user_id' not in session:
-            return {"message":"Please log in to access this resource!"},403
+        # if 'user_id' not in session:
+            # return {"message":"Please log in to access this resource!"},403
+        
+        
+            
         product = Product.query.filter(Product.id==id).first()
         
         if product:
-            product_dict=product.to_dict()
-            body=product_dict
-            status=200
+                product_dict=product.to_dict()
+                body=product_dict
+                status=200
         else:
             body = {"error": "product not found"}
             status = 404
@@ -228,5 +231,3 @@ api.add_resource(Reviews, '/reviews')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5555)
- 
- 
