@@ -36,7 +36,6 @@ function Home() {
 
   return (
     <div style={{ backgroundColor: "#f8f9fa" }}>
-      <Navbar />
       <Header />
       <h3 className="p-3">SMART PHONES</h3>
       <PhoneCard pageOne={pageOne} />

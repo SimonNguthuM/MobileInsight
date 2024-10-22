@@ -5,8 +5,6 @@ function About() {
   return (
     // a little story about MobileInsight
     <div style={{backgroundColor:'#f8f9fa'}}> 
-    {/* Link to home page */}
-      <a type="button" href="/" className="btn  btn-lg">MobileInsight</a>
       <p  id="About" className="m-a p-3">
         Welcome to MobileInsight, your premier destination for the latest
         advancements in mobile technology. We are passionate about bringing you

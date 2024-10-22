@@ -1,6 +1,6 @@
 // Login.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom"; 
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { handleLogin } = useOutletContext(); 
 
   const formik = useFormik({
     initialValues: {
@@ -31,6 +32,8 @@ const Login = () => {
           const data = await response.json();
           Cookies.set("token", data.token);
           Cookies.set("username", data.username);
+
+          handleLogin(data.username);
           navigate("/");
         } else {
           setError("Invalid username or password");
@@ -55,7 +58,9 @@ const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.touched.username && formik.errors.username ? <p style={{ color: "red" }}>{formik.errors.username}</p> : null}
+          {formik.touched.username && formik.errors.username ? (
+            <p style={{ color: "red" }}>{formik.errors.username}</p>
+          ) : null}
         </div>
         <div>
           <label htmlFor="password">Password:</label>
@@ -67,7 +72,9 @@ const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.touched.password && formik.errors.password ? <p style={{ color: "red" }}>{formik.errors.password}</p> : null}
+          {formik.touched.password && formik.errors.password ? (
+            <p style={{ color: "red" }}>{formik.errors.password}</p>
+          ) : null}
         </div>
         <button type="submit">Login</button>
         {error && <p style={{ color: "red" }}>{error}</p>}
