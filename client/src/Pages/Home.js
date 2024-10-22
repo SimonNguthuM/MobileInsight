@@ -1,3 +1,4 @@
+// Home.js
 import React, { useEffect, useState } from "react";
 import PhoneCard from "./PhoneCard";
 import Navbar from "./Navbar";
@@ -8,7 +9,6 @@ import UserList from "./userList";
 import AddReviewForm from "./AddReview";
 
 function Home() {
-  // State management
   const [pageOne, setPageOne] = useState([]);
   const [userList, setUserList] = useState([]);
   const [newReview, setNewReview] = useState({});
@@ -16,29 +16,21 @@ function Home() {
   useEffect(() => {
     fetch("http://127.0.0.1:5555/products")
       .then((r) => r.json())
-      .then((products) => {
-        setPageOne(products);
-      });
+      .then((products) => setPageOne(products));
   }, []);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5555/users")
       .then((r) => r.json())
-      .then((users) => {
-        setUserList(users);
-      });
+      .then((users) => setUserList(users));
   }, []);
 
-  // Function to handle adding new reviews
   const handleReviewAdded = (oneReview) => {
     setNewReview((prevState) => {
-      // Ensure reviews array is initialized before adding a new review
-      const updatedReviews = prevState.reviews ? [...prevState.reviews, oneReview] : [oneReview];
-
-      return {
-        ...prevState,
-        reviews: updatedReviews,
-      };
+      const updatedReviews = prevState.reviews
+        ? [...prevState.reviews, oneReview]
+        : [oneReview];
+      return { ...prevState, reviews: updatedReviews };
     });
   };
 
@@ -57,7 +49,6 @@ function Home() {
       <p><strong>Our Best Customers</strong></p>
       <UserList userList={userList} />
       <AddReviewForm onReviewAdded={handleReviewAdded} />
-
       <Footer />
     </div>
   );

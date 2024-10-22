@@ -1,70 +1,79 @@
+// Login.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Cookies from "js-cookie";
 
-function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+const Login = () => {
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Username is required"),
+      password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+    }),
+    onSubmit: async (values) => {
+      setError("");
+      try {
+        const response = await fetch("http://localhost:5555/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
 
-    const response = await fetch("http://127.0.0.1:5555/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      setMessage(data.message);
-      setIsLoggedIn(true);  // Set logged-in state to true
-      navigate("/");        // Redirect to home page
-    } else {
-      setMessage(data.message);
-    }
-  };
+        if (response.ok) {
+          const data = await response.json();
+          Cookies.set("token", data.token);
+          Cookies.set("username", data.username);
+          navigate("/");
+        } else {
+          setError("Invalid username or password");
+        }
+      } catch (error) {
+        setError("Failed to log in. Please try again.");
+      }
+    },
+  });
 
   return (
-    <div>
-      {!isLoggedIn ? (  // Conditionally render form if not logged in
-        <>
-          <h2>Login</h2>
-          <form onSubmit={handleLogin}>
-            <div>
-              <label>Username:</label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <button type="submit">Login</button>
-          </form>
-        </>
-      ) : (
-        <p>You are logged in!</p>  // Show this message after login
-      )}
-      {message && <p>{message}</p>}
+    <div className="login-form">
+      <h2>Login</h2>
+      <form onSubmit={formik.handleSubmit}>
+        <div>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.username && formik.errors.username ? <p style={{ color: "red" }}>{formik.errors.username}</p> : null}
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.password && formik.errors.password ? <p style={{ color: "red" }}>{formik.errors.password}</p> : null}
+        </div>
+        <button type="submit">Login</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </form>
     </div>
   );
-}
+};
 
 export default Login;
