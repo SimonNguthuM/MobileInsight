@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
-from sqlalchemy.ext.hybrid import hybrid_property
+from flask_login import UserMixin
 
 
 metadata = MetaData()
@@ -10,7 +10,7 @@ metadata = MetaData()
 db = SQLAlchemy(metadata=metadata)
 
 
-class User(db.Model,SerializerMixin):
+class User(db.Model,SerializerMixin, UserMixin):
     __tablename__= 'users'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -33,7 +33,7 @@ class User(db.Model,SerializerMixin):
         return f'<User {self.id}, Username: {self.username} >'
     
 
-class Product(db.Model, SerializerMixin):
+class Product(db.Model, SerializerMixin,UserMixin):
     __tablename__='products'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -49,7 +49,7 @@ class Product(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<product {self.id}, name; {self.name}, >'
 
-class Review(db.Model, SerializerMixin):
+class Review(db.Model, SerializerMixin, UserMixin):
     __tablename__='reviews'
     
     id = db.Column(db.Integer, primary_key=True)

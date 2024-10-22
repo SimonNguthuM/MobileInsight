@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "./Footer";
 import ReviewList from "./Review";
-import AddReviewForm from "./AddReview";
+
 
 function Specifications() {
   const [profile, setProfile] = useState({});
@@ -23,7 +23,7 @@ function Specifications() {
       reviews: [...prevProfile.reviews, newReview],
     }));
   };
-
+ 
   if (!profile.name) {
     return <h1>Loading...</h1>;
   }
@@ -56,10 +56,6 @@ function Specifications() {
 
       {/* Display the reviews */}
       <ReviewList reviews={profile.reviews} />
-
-      {/* Add new review */}
-      <AddReviewForm productId={profile.id} onReviewAdded={handleReviewAdded} />
-
       <Footer />
     </div>
   );

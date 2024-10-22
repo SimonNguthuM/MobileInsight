@@ -4,11 +4,14 @@ import Navbar from "./Navbar";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
+import UserList from "./userList";
+import AddReviewForm from "./AddReview";
 
 function Home() {
   // State management
   const [pageOne, setPageOne] = useState([]);
-  const [search, setSearch] = useState("");
+  const [userList, setUserList] = useState([]);
+  const [newReview, setNewReview] = useState({});
 
   useEffect(() => {
     fetch("http://127.0.0.1:5555/products")
@@ -18,18 +21,42 @@ function Home() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("http://127.0.0.1:5555/users")
+      .then((r) => r.json())
+      .then((users) => {
+        setUserList(users);
+      });
+  }, []);
+
+  // Function to handle adding new reviews
+  const handleReviewAdded = (oneReview) => {
+    setNewReview((prevState) => {
+      // Ensure reviews array is initialized before adding a new review
+      const updatedReviews = prevState.reviews ? [...prevState.reviews, oneReview] : [oneReview];
+
+      return {
+        ...prevState,
+        reviews: updatedReviews,
+      };
+    });
+  };
+
   return (
     <div style={{ backgroundColor: "#f8f9fa" }}>
-      <Navbar setSearch={setSearch} />
+      <Navbar />
       <Header />
       <h3 className="p-3">SMART PHONES</h3>
-      <PhoneCard search={search} pageOne={pageOne} />
+      <PhoneCard pageOne={pageOne} />
       <p className="p-2">
         Would you like to add a device?
         <Link to={"/newphone"}>
           <em>click here</em>
         </Link>
       </p>
+      <p><strong>Our Best Customers</strong></p>
+      <UserList userList={userList} />
+      <AddReviewForm onReviewAdded={handleReviewAdded} />
 
       <Footer />
     </div>

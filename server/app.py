@@ -4,12 +4,18 @@ from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
+# from flask_login import LoginManager, login_user, login_required, current_user,logout_user
 import os
 
+
+
+# login_manager = LoginManager()
 
 app = Flask(__name__)
 bcrypt=Bcrypt(app)
 app.secret_key = os.urandom(24)
+
+# login_manager.init_app(app)
 
 # Configure the database URI and settings
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mobileInsight.db'
@@ -25,18 +31,41 @@ CORS(app)
 api = Api(app)
 
 
-class Users(Resource):
-    def get(self):
+# @login_manager.user_loader
+# def load_user(id):
+#     return User.query.get(id)
 
-        if 'user_id' not in session:
-            return {"message":"Please log in to access this resource!"},403
-        
+# @app.route("/login", methods=["POST"])
+# def login():
+#     username = request.json.get("username")
+#     password = request.json.get("password")
+
+#     user  = User.query.filter_by(username = username).first()
+
+#     if user and bcrypt.check_password_hash(user.password, password):
+#         login_user(user)
+#         return {
+#             "message": f'welcome {current_user}'
+#         },200
+#     return {
+#         "message": "Invalid Credentials"
+#     },401
+
+
+# @app.route('/logout', methods=['POST'] )
+# def logout():
+#     logout_user()
+#     return jsonify({
+#         "message":"Logged out successfully!"
+    # })        
+
+
+class Users(Resource):
+    # @login_required
+    def get(self):
         users = [user.to_dict() for user in User.query.all()]
 
-        return {
-            "message": "request successful!",
-            "Data": users
-        }
+        return users
 
     def post(self):
         username = request.json.get("username")
@@ -54,50 +83,7 @@ class Users(Resource):
         return {
             "message": "User successfully created!"
         }
-    
-    def patch(self, id):
-        user = User.query.filter_by(id=id).first()
-        if not user:
-            return {"error": "User not found"}, 404
-        data = request.get_json()
-        for key, value in data.items():
-            setattr(user, key, value)
-        db.session.commit()
-        return {"message": "User updated successfully!"}, 200
-
-    def delete(self, id):
-        user = User.query.filter_by(id=id).first()
-        if not user:
-            return {"error": "User not found"}, 404
-        db.session.delete(user)
-        db.session.commit()
-        return {"message": "User deleted successfully!"}, 200
-        
-        
-@app.route("/login", methods=["POST"])
-def login():
-    username = request.json.get("username")
-    password = request.json.get("password")
-
-    user  = User.query.filter_by(username = username).first()
-
-    if user and bcrypt.check_password_hash(user.password, password):
-        session["user_id"] = user.id
-        return {
-            "message": "Login successful!"
-        },200
-    return {
-        "message": "Invalid Credentials"
-    },401
-
-@app.route('/logout', methods=['POST'] )
-def logout():
-    session.pop('user_id',None)
-    return jsonify({
-        "message":"Logged out successfully!"
-    })        
-        
-        
+       
 
 class Products(Resource):
     def get(self):
@@ -107,20 +93,26 @@ class Products(Resource):
         return response
 
     def post(self):
-        data = request.get_json()
-        new_product = Product(name=data['name'], price=data['price'])
+        new_product = Product(
+            name=request.json.get('name'), 
+            processor=request.json.get('processor'),
+            image=request.json.get('image'),
+            price=request.json.get('price')
+            )
         db.session.add(new_product)
         db.session.commit()
-        return jsonify({"id": new_product.id, "name": new_product.name, "price": new_product.price}), 201
+        
+        body=["Product created successfully"]
+        status=201
+        
+        response =make_response(body, status)
+        
+        return response
     
+     
 class ProductById(Resource):
-    def get(self, id):
-        
-        # if 'user_id' not in session:
-            # return {"message":"Please log in to access this resource!"},403
-        
-        
-            
+    # @login_required
+    def get(self, id):        
         product = Product.query.filter(Product.id==id).first()
         
         if product:
@@ -130,32 +122,31 @@ class ProductById(Resource):
         else:
             body = {"error": "product not found"}
             status = 404
-            
+      
         return make_response(body, status)
     
-    def patch(self, id):
-        product = Product.query.filter_by(id=id).first()
-        if not product:
-            return {"error": "Product not found"}, 404
-        data = request.get_json()
-        for key, value in data.items():
-            setattr(product, key, value)
-        db.session.commit()
-        return {"message": "Product updated successfully!"}, 200
-
-    def delete(self, id):
-        product = Product.query.filter_by(id=id).first()
-        if not product:
-            return {"error": "Product not found"}, 404
-        db.session.delete(product)
-        db.session.commit()
-        return {"message": "Product deleted successfully!"}, 200
+    # @login_required
+    # def post(self,id):
+        
+    #     product_id =Product.query.filter(Product.id==id).first()
+    #     user_id=current_user
+    #     new_review = Review(
+    #             user_id=user_id,
+    #             product_id=product_id,
+    #             rating=request.json.get('rating'), 
+    #             comment=request.json.get('comment')
+    #             )
+    #     db.session.add(new_review)
+    #     db.session.commit()
+    #     review_dict=new_review.to_dict()
+    #     response=make_response(review_dict, 201)
+            
+    #     return(response)
+    
 
 
 class ReviewsById(Resource):
     def get(self,id):
-        if 'user_id' not in session:
-            return {"message": "Please log in to access this resource!"}, 403
         review=Review.query.filter(Review.id==id).first()
         
         if review:
@@ -168,9 +159,10 @@ class ReviewsById(Resource):
             
         return make_response(body, status)
     
-    def patch(self,id):
+    # @login_required
+    def patch(self,id): 
         review=Review.query.filter(Review.id==id).first()
-        
+
         if not review:
             error_message = '"error":"Review not found"'
             return error_message
@@ -186,6 +178,7 @@ class ReviewsById(Resource):
             
             response=make_response(review_dict,200)
             return response
+        
         except ValueError:  
             body = {"error": ["validation errors"]}
             status = 400
@@ -204,23 +197,20 @@ class ReviewsById(Resource):
     
 
 class Reviews(Resource):
-        def post(self):
-            if 'user_id' not in session:
-               return {"message": "Please log in to access this resource!"}, 403
-
-            new_review = Review(
+    # @login_required
+    def post(self):
+        new_review = Review(
                 user_id=request.json.get('user_id'),
                 product_id=request.json.get('product_id'),
                 rating=request.json.get('rating'), 
                 comment=request.json.get('comment')
                 )
-            db.session.add(new_review)
-            db.session.commit()
+        db.session.add(new_review)
+        db.session.commit()
+        review_dict=new_review.to_dict()
+        response=make_response(review_dict, 201)
             
-            review_dict=new_review.to_dict()
-            response=make_response(review_dict, 201)
-            
-            return(response)
+        return(response)
     
 
 api.add_resource(ReviewsById, '/reviews/<int:id>')

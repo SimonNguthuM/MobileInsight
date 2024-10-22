@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddReviewForm = ({ productId, onReviewAdded }) => {
+const AddReviewForm = ({ onReviewAdded }) => {
   const [user_id, setUserId] = useState("");
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState("");
@@ -19,9 +19,9 @@ const AddReviewForm = ({ productId, onReviewAdded }) => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5555/reviews/${productId}`,
+        `http://127.0.0.1:5555/reviews`,
         {
-          method: "PATCH",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },

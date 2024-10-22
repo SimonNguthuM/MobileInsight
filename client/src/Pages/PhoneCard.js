@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
-function PhoneCard({ pageOne, search }) {
+function PhoneCard({ pageOne}) {
   return (
     <div>
       <div
@@ -10,10 +10,6 @@ function PhoneCard({ pageOne, search }) {
         style={{ backgroundColor: "#f8f9fa" }}
       >
         {pageOne
-          // for the search bar
-          .filter((product) => {
-            return search === "" ? product : product.name.includes(search);
-          })
           // a card for each device
           .map((product) => (
             <div
@@ -21,6 +17,7 @@ function PhoneCard({ pageOne, search }) {
               key={product.id}
               style={{ width: 18 + "rem" }}
             >
+              <p>{product.id}</p>
               <img
                 src={product.image}
                 style={{ width: "200px", height: "200px" }}

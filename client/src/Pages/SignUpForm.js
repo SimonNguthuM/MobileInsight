@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SignUpForm.css';
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const SignUpForm = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,6 +59,7 @@ const SignUpForm = () => {
       if (response.ok) {
         setSuccess('User signed up successfully!');
         setFormData({ username: '', password: '', confirmPassword: '' });
+        navigate('/Login')
       } else if (response.status === 409) {
         setError('Username already taken. Please try a different one.');
       } else {
