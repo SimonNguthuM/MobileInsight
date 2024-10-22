@@ -25,7 +25,7 @@ function NewPhone() {
   // submit function
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("https://mobileinsight-server.onrender.com", {
+    fetch("http://127.0.0.1:5555/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,10 +37,7 @@ function NewPhone() {
         setNewDevice({
           ...newDevice,
           name: data.name,
-          display: data.display,
-          memory: data.memory,
           processor: data.processor,
-          battery: data.battery,
           image: data.image,
           price: data.price,
         });
