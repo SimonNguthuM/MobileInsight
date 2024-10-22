@@ -15,56 +15,41 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar" style={{ backgroundColor: "#e9ecef" }}>
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Mobile Insight</Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        {/* link to the home page from any other page */}
+        <a type="button" href="/" className="btn btn-lg">
+          MobileInsight
+        </a>
+        <a type="button" href="/About" className="btn">
+          About
+        </a>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">About</Link>
-            </li>
-            {username ? (
-              <>
-                <li className="nav-item">
-                  <span className="nav-link">Welcome, {username}</span>
-                </li>
-                <li className="nav-item">
-                  <button
-                    className="btn btn-outline-danger nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">Login</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/signup">Sign Up</Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+        {/* Show "Sign Up" or User's name with Logout based on authentication */}
+        {username ? (
+          <>
+            <span className="btn" style={{ cursor: "default" }}>
+              Welcome, {username}
+            </span>
+            <button
+              type="button"
+              className="btn"
+              style={{ cursor: "pointer" }}
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <a type="button" href="/login" className="btn">
+              Login
+            </a>
+            <a type="button" href="/signup" className="btn">
+              Sign Up
+            </a>
+          </>
+        )}
       </div>
     </nav>
   );
