@@ -1,15 +1,15 @@
-// AddReviewForm.js
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 const AddReviewForm = ({ onReviewAdded }) => {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState("");
-  const [product_id, setProductId] = useState("");
+  const [product_id, setProductId] = useState(""); 
+  const [products, setProducts] = useState([]); 
+  const [user, setUser] = useState(null); 
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null); // Track logged-in user info
 
-  // Fetch logged-in user's data using the stored cookie
+
   useEffect(() => {
     const fetchUser = async () => {
       const username = Cookies.get("username");
@@ -17,7 +17,6 @@ const AddReviewForm = ({ onReviewAdded }) => {
         try {
           const response = await fetch(`http://127.0.0.1:5555/users`);
           const users = await response.json();
-
           const loggedInUser = users.find((u) => u.username === username);
           setUser(loggedInUser);
         } catch (error) {
@@ -29,6 +28,20 @@ const AddReviewForm = ({ onReviewAdded }) => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5555/products");
+        const productsData = await response.json();
+        setProducts(productsData); 
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,10 +51,10 @@ const AddReviewForm = ({ onReviewAdded }) => {
     }
 
     const newReview = {
-      user_id: user.id, // Use logged-in user's ID
+      user_id: user.id, 
       comment,
       rating: parseInt(rating),
-      product_id: parseInt(product_id),
+      product_id: parseInt(product_id), 
     };
 
     try {
@@ -60,12 +73,11 @@ const AddReviewForm = ({ onReviewAdded }) => {
       const data = await response.json();
       console.log("New review added:", data);
 
-      // Call the callback to update the review list with the new review
       onReviewAdded(data);
 
-      // Clear form inputs
       setComment("");
       setRating("");
+      setProductId("");
       setError(null);
     } catch (error) {
       console.error("Error:", error);
@@ -80,13 +92,19 @@ const AddReviewForm = ({ onReviewAdded }) => {
       {user ? (
         <>
           <div>
-            <label>Product ID:</label>
-            <input
-              type="number"
+            <label>Product:</label>
+            <select
               value={product_id}
               onChange={(e) => setProductId(e.target.value)}
               required
-            />
+            >
+              <option value="" disabled>Select a phone</option>
+              {products.map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name} - {product.processor} (${product.price})
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label>Comment:</label>
