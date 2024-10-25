@@ -2,27 +2,24 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie"; 
 
 const AddReviewForm = ({ onReviewAdded }) => {
-  // State variables for form fields and user data
-  const [comment, setComment] = useState(""); // State for the review comment
-  const [rating, setRating] = useState(""); // State for the review rating
-  const [product_id, setProductId] = useState(""); // State for selected product ID
-  const [products, setProducts] = useState([]); // State for product list
-  const [user, setUser] = useState(null); // State for logged-in user
-  const [error, setError] = useState(null); // State for error messages
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState("");
+  const [product_id, setProductId] = useState("");
+  const [products, setProducts] = useState([]);
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       const username = Cookies.get("username");
       if (username) {
         try {
-          // Fetch user data from the API
           const response = await fetch(`http://127.0.0.1:5555/users`);
           const users = await response.json();
-          // Find the logged-in user by username
           const loggedInUser = users.find((u) => u.username === username);
-          setUser(loggedInUser); // Set user state
+          setUser(loggedInUser);
         } catch (error) {
-          console.error("Error fetching user data:", error); // Log errors to console
+          console.error("Error fetching user data:", error);
         }
       }
     };
@@ -33,47 +30,41 @@ const AddReviewForm = ({ onReviewAdded }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Fetch product data from the API
         const response = await fetch("http://127.0.0.1:5555/products");
         const productsData = await response.json();
-        setProducts(productsData); // Set products state with fetched data
+        setProducts(productsData); 
       } catch (error) {
-        console.error("Error fetching products:", error); // Log errors to console
+        console.error("Error fetching products:", error);
       }
     };
 
     fetchProducts(); 
   }, []); 
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if the user is logged in
     if (!user) {
-      setError("You must be logged in to submit a review."); // Set error message
-      return; // Exit function if user is not logged in
+      setError("You must be logged in to submit a review.");
+      return;
     }
 
-    // Create a new review object
     const newReview = {
-      user_id: user.id, // Use logged-in user's ID
-      comment, // Review comment from state
-      rating: parseInt(rating), // Convert rating to integer
-      product_id: parseInt(product_id), // Convert product ID to integer
+      user_id: user.id,
+      comment,
+      rating: parseInt(rating),
+      product_id: parseInt(product_id),
     };
 
     try {
-      // Send the new review to the API
       const response = await fetch(`http://127.0.0.1:5555/reviews`, {
-        method: "POST", // Set HTTP method to POST
+        method: "POST",
         headers: {
-          "Content-Type": "application/json", // Set content type to JSON
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newReview), // Convert review object to JSON string
+        body: JSON.stringify(newReview),
       });
 
-      // Check if the response is not okay (e.g., error from the server)
       if (!response.ok) {
         throw new Error("Failed to add review");
       }
@@ -83,14 +74,13 @@ const AddReviewForm = ({ onReviewAdded }) => {
 
       onReviewAdded(data); 
 
-      // Reset form fields and error state
       setComment("");
       setRating("");
       setProductId("");
       setError(null);
     } catch (error) {
-      console.error("Error:", error); // Log errors to console
-      setError("Failed to add review. Please try again."); // Set error message
+      console.error("Error:", error);
+      setError("Failed to add review. Please try again.");
     }
   };
 
@@ -98,7 +88,7 @@ const AddReviewForm = ({ onReviewAdded }) => {
     <form onSubmit={handleSubmit} style={styles.form}> 
       <h3 style={styles.title}>Add Your Review</h3> 
       {error && <p style={styles.error}>{error}</p>} 
-      {user ? ( // Check if user is logged in
+      {user ? (
         <>
           <div style={styles.field}> 
             <label style={styles.label}>Product:</label>
@@ -146,7 +136,6 @@ const AddReviewForm = ({ onReviewAdded }) => {
   );
 };
 
-// Styles for the form and its elements
 const styles = {
   form: {
     maxWidth: "500px",

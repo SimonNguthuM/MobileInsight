@@ -73,22 +73,5 @@ const styles = {
 
 export default Navbar;
 
-// import React from "react";
-// import "../styles/navbar.css"
-// const Navbar = () => {
-//   return (
-//     <nav>
-//       <div className="logo">
-//         <a href="">MobileInsight</a>
-//       </div>
-//       {/* <div className="nav">
-//         <a href="">About</a>
-//         <a href="">login</a>
-//         <a href="">signup</a>
-//       </div> */}
 
-//     </nav>
-//   );
-// };
 
-// export default Navbar;

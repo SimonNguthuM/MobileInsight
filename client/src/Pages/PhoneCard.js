@@ -16,7 +16,7 @@ function PhoneCard({ pageOne, search }) {
             className="card m-2 shadow-sm"
             key={product.id}
             style={{
-              width: "12rem", // Reduced width for smaller cards
+              width: "12rem",
               borderRadius: "10px",
               transition: "transform 0.3s",
             }}
@@ -24,7 +24,7 @@ function PhoneCard({ pageOne, search }) {
             <div
               style={{
                 width: "100%",
-                height: "160px", // Adjusted height to keep proportions
+                height: "160px",
                 overflow: "hidden",
               }}
             >
@@ -33,7 +33,7 @@ function PhoneCard({ pageOne, search }) {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "contain", // Ensures the entire image fits without distortion
+                  objectFit: "contain",
                   objectPosition: "center",
                 }}
                 className="card-img-top"

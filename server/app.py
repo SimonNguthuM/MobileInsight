@@ -1,4 +1,3 @@
-# app.py
 from models import User, Product, Review, db
 from flask import request, jsonify, Flask, make_response, session
 from flask_restful import Api, Resource
@@ -19,7 +18,6 @@ migrate = Migrate(app, db)
 db.init_app(app)
 CORS(app)
 
-# Initialize Flask-RESTful API
 api = Api(app)
 
 class Users(Resource):

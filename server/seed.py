@@ -94,7 +94,6 @@ with app.app_context():
         }
     ]
 
-    # Adding each phone to the database
     for product_data in products:
         product = Product(
             name=product_data["name"],

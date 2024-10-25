@@ -1,16 +1,14 @@
-// Admin.js
 import React, { useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import UserList from "./UserList";
 import NewPhone from "./NewPhone";
-import "../styles/admin.css"; // Import custom CSS for styling
+import "../styles/admin.css";
 
 function Admin() {
   const { username } = useOutletContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect immediately if the user is not "Admin"
     if (username !== "Admin") {
       navigate("/", { replace: true });
     }

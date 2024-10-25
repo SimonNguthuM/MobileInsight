@@ -16,7 +16,6 @@ function NewPhone() {
     });
   };
 
-  // Submit function
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch("http://127.0.0.1:5555/products", {

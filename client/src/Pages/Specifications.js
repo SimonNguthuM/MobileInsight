@@ -1,4 +1,3 @@
-// Specifications.js
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import Footer from "./Footer";

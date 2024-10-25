@@ -28,7 +28,7 @@ function Header() {
         position: "relative",
       }}
     >
-      {/* Optional overlay for better text readability */}
+      {}
       <div
         style={{
           position: "absolute",

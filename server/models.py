@@ -6,7 +6,6 @@ from flask_login import UserMixin
 
 
 metadata = MetaData()
-# Initialize SQLAlchemy
 db = SQLAlchemy(metadata=metadata)
 
 

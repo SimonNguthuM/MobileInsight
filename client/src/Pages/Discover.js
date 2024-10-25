@@ -34,7 +34,6 @@ function Discover() {
       <input
             className="form-control me-2"
             type="search"
-            // onsearch state management from the home page
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search......"
             aria-label="Search"

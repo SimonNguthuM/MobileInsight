@@ -10,7 +10,7 @@ function UserList() {
         fetch("http://127.0.0.1:5555/users")
             .then((r) => r.json())
             .then((users) => setUserList(users));
-    }, []); // Adding an empty dependency array to run only on mount
+    }, []);
 
     return (
         <div className="user-list-container">

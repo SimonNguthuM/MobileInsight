@@ -34,7 +34,7 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Copyright Information */}
+        {}
         <div
           style={{
             borderTop: "1px solid #ddd",
