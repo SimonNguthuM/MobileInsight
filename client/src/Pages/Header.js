@@ -19,9 +19,9 @@ function Header() {
         looking for cutting-edge technology or a reliable everyday device, our
         curated selection and expert guidance ensure you find the perfect mobile
         phone. Explore, compare, and connect with confidence.
-      </p>
+         </p>
       
-<button onClick={handleDiscoverClick}>Discover</button>
+        <button id="header-btn" onClick={handleDiscoverClick}>Discover</button>
     </div>
   );
 }

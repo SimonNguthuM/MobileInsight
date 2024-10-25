@@ -28,10 +28,10 @@
     #intro h2{
         margin-bottom: 30px;
     }
-.button{
+#header-btn{
     padding: 10px;
     border: 2px solid black;
-    width: 70px;
+    width: 10%;
     cursor: pointer;
     text-decoration: none;
     color: black;
@@ -40,7 +40,7 @@
     outline: none;
     transition: ease-in;
 }
-.button:hover{
+#header-btn:hover{
     background-color: skyblue;
     border: none;
     outline: none;
