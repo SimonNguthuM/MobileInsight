@@ -48,6 +48,7 @@ function NewPhone() {
           <input
             type="text"
             name="name"
+            className="form-control"
             onChange={handleChange}
             value={newDevice.name}
             required
@@ -58,6 +59,7 @@ function NewPhone() {
           <input
             type="text"
             name="processor"
+            className="form-control"
             onChange={handleChange}
             value={newDevice.processor}
             required
@@ -68,6 +70,7 @@ function NewPhone() {
           <input
             type="text"
             name="image"
+            className="form-control"
             onChange={handleChange}
             value={newDevice.image}
             placeholder="Add image URL..."
@@ -79,6 +82,7 @@ function NewPhone() {
           <input
             type="text"
             name="price"
+            className="form-control"
             onChange={handleChange}
             value={newDevice.price}
             placeholder="Enter price..."
