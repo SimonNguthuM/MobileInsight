@@ -1,28 +1,22 @@
 import React, { useState } from "react";
-import Footer from "./Footer";
-import "../Submit.css"
+import "../styles/newPhone.css"; 
 
 function NewPhone() {
-  //useState
   const [newDevice, setNewDevice] = useState({
     name: "",
-    display: "",
-    memory: "",
     processor: "",
-    battery: "",
     image: "",
     price: "",
   });
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setNewDevice({
       ...newDevice,
       [e.target.name]: e.target.value,
     });
   };
 
-  // submit function
+  // Submit function
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch("http://127.0.0.1:5555/products", {
@@ -35,67 +29,68 @@ function NewPhone() {
       .then((response) => response.json())
       .then((data) => {
         setNewDevice({
-          ...newDevice,
-          name: data.name,
-          processor: data.processor,
-          image: data.image,
-          price: data.price,
+          name: "",
+          processor: "",
+          image: "",
+          price: "",
         });
-        window.location.reload(); /// Auto-reloads the window to refresh the form
+        alert("Device added successfully!"); 
+        window.location.reload(); 
       });
   };
 
-  // Html elements to add new Device
   return (
-    <div style={{ backgroundColor: "#f8f9fa" }}>
-      <form id="phoneForm" onSubmit={handleSubmit}>
-        <p>Fill this Form to add A Device</p>
-        <div className="mb-3">
+    <div className="new-phone-container">
+      <h2>Add a New Device</h2>
+      <form id="phoneForm" onSubmit={handleSubmit} className="phone-form">
+        <div className="form-group">
           <label className="form-label">Name</label>
           <input
             type="text"
             name="name"
-            className="form-control"
             onChange={handleChange}
+            value={newDevice.name}
+            required
           />
         </div>
-        <div className="mb-3">
+        <div className="form-group">
           <label className="form-label">Processor</label>
           <input
             type="text"
             name="processor"
-            className="form-control"
             onChange={handleChange}
+            value={newDevice.processor}
+            required
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Image</label>
+        <div className="form-group">
+          <label className="form-label">Image URL</label>
           <input
-          placeholder="Add url...."
             type="text"
             name="image"
-            className="form-control"
             onChange={handleChange}
+            value={newDevice.image}
+            placeholder="Add image URL..."
+            required
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Price</label>
+        <div className="form-group">
+          <label className="form-label">Price (KES)</label>
           <input
-          placeholder="In kes...."
             type="text"
             name="price"
-            className="form-control"
             onChange={handleChange}
+            value={newDevice.price}
+            placeholder="Enter price..."
+            required
           />
         </div>
-        <button type="submit" className="btn btn-info">
-          Add
+        <button type="submit" className="btn btn-primary">
+          Add Device
         </button>
       </form>
-      <Footer />
     </div>
   );
 }
 
 export default NewPhone;
-

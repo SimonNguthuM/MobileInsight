@@ -78,7 +78,7 @@ with app.app_context():
             "name": "Vivo V30",
             "processor": "Qualcomm Snapdragon 7Gen",
             "price": "45000",
-            "image": "https://i0.wp.com/www.bovic.co.ke/wp-content/uploads/2024/05/Vivo1.webp?fit=1000%2C1000&ssl=1"
+            "image": "https://asia-exstatic-vivofs.vivo.com/PSee2l50xoirPK7y/1706865527504/9fef4f86f94b5be5ed465424273c0a51.png"
         },
         {
             "name": "Nokia 7610 5G",

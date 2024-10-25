@@ -16,6 +16,7 @@ const Navbar = ({ isAuthenticated, username, handleLogout }) => {
               <button type="button" style={styles.button} onClick={handleLogout}>
                 Logout
               </button>
+              <Link to="/admin" style={styles.button}>Admin</Link>
             </>
           ) : (
             <>

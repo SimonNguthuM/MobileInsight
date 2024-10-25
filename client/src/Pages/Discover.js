@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import PhoneCard from "./PhoneCard";
-import { Link } from "react-router-dom";
 import AddReviewForm from "./AddReview";
 import "../styles/discover.css";
 
@@ -33,15 +32,7 @@ function Discover() {
       <h3 className="section-title">Explore Smart Phones</h3>
       <div className="phone-cards-container">
         <PhoneCard pageOne={pageOne} />
-      </div>
-      
-      <p className="add-device">
-        Would you like to add a device? 
-        <Link to={"/newphone"} className="link">
-          <em>click here</em>
-        </Link>
-      </p>
-      
+      </div>   
       <AddReviewForm onReviewAdded={handleReviewAdded} />
     </div>
   );

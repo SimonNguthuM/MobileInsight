@@ -9,6 +9,7 @@ import Discover from "./Pages/Discover";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import App from "./App"; 
+import Admin from "./Pages/Admin";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "/discover", element: <Discover /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <SignUp /> },
+      { path: "/admin", element: <Admin />}
     ],
   },
 ]);
