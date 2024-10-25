@@ -1,0 +1,28 @@
+.admin-container {
+    max-width: 800px; /* Max width for the admin panel */
+    margin: 20px auto; /* Center the container */
+    padding: 20px; /* Padding around the content */
+    background-color: #ffffff; /* White background for better contrast */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  .admin-title {
+    text-align: center; /* Center the title */
+    color: #007bff; /* Primary color for the title */
+    margin-bottom: 20px; /* Space below the title */
+  }
+  
+  .admin-content {
+    display: flex; /* Flexbox for layout */
+    flex-direction: column; /* Vertical stacking */
+    gap: 20px; /* Space between components */
+  }
+  
+  .not-admin-message {
+    text-align: center; /* Center the not admin message */
+    color: #dc3545; /* Red color for error messages */
+    font-weight: bold; /* Bold text */
+    font-size: 18px; /* Slightly larger font size */
+  }
+  

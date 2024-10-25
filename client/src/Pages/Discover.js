@@ -5,6 +5,7 @@ import "../styles/discover.css";
 
 function Discover() {
   const [pageOne, setPageOne] = useState([]);
+  const [search, setSearch] = useState("")
   const [newReview, setNewReview] = useState({});
 
   useEffect(() => {
@@ -28,10 +29,18 @@ function Discover() {
       We provide expert insights on devices from top brands,
        helping you stay informed about mobile technology. </p>
       </section>
-      
+
       <h3 className="section-title">Explore Smart Phones</h3>
+      <input
+            className="form-control me-2"
+            type="search"
+            // onsearch state management from the home page
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search......"
+            aria-label="Search"
+          />
       <div className="phone-cards-container">
-        <PhoneCard pageOne={pageOne} />
+        <PhoneCard search={search} pageOne={pageOne} />
       </div>   
       <AddReviewForm onReviewAdded={handleReviewAdded} />
     </div>

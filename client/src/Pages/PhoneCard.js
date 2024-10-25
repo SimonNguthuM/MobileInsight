@@ -2,11 +2,16 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
-function PhoneCard({ pageOne }) {
+function PhoneCard({ pageOne, search }) {
   return (
     <div className="container py-4">
       <div className="d-flex flex-wrap justify-content-center">
-        {pageOne.map((product) => (
+        {pageOne
+        .filter((product)=>{
+          return search == "" ? product : product.name.includes(search);
+        })
+        
+        .map((product) => (
           <div
             className="card m-2 shadow-sm"
             key={product.id}
