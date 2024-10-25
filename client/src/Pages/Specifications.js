@@ -1,5 +1,6 @@
+// Specifications.js
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import Footer from "./Footer";
 import ReviewList from "./Review";
 
@@ -7,7 +8,8 @@ function Specifications() {
   const [profile, setProfile] = useState({});
   const params = useParams();
   const profileId = params.id;
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate();
+  const { username } = useOutletContext(); 
 
   useEffect(() => {
     fetch(`http://127.0.0.1:5555/products/${profileId}`)
@@ -29,7 +31,6 @@ function Specifications() {
 
   return (
     <div style={{ backgroundColor: "#f8f9fa", padding: "20px" }}>
-      {/* Back Arrow */}
       <div onClick={() => navigate("/discover")} style={styles.backArrow}>
         ← Back to Discover
       </div>
@@ -55,10 +56,9 @@ function Specifications() {
           </div>
         </div>
 
-        {/* ReviewList Component */}
-        <ReviewList reviews={profile.reviews} />
+        <ReviewList reviews={profile.reviews} username={username} />
       </div>
-      
+
       <Footer />
     </div>
   );

@@ -32,7 +32,7 @@ const App = () => {
     <div>
       <Navbar isAuthenticated={isAuthenticated} username={username} handleLogout={handleLogout} />
       <div className="content">
-        <Outlet context={{ handleLogin }} /> 
+        <Outlet context={{ handleLogin, username }} />
       </div>
     </div>
   );
