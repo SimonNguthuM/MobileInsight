@@ -1,16 +1,25 @@
-import React from "react";
-import Cookies from "js-cookie";
+// Admin.js
+import React, { useEffect } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import UserList from "./UserList";
 import NewPhone from "./NewPhone";
 import "../styles/admin.css"; // Import custom CSS for styling
 
 function Admin() {
-  const user = Cookies.get("username");
+  const { username } = useOutletContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect immediately if the user is not "Admin"
+    if (username !== "Admin") {
+      navigate("/", { replace: true });
+    }
+  }, [username, navigate]);
 
   return (
     <div className="admin-container">
       <h2 className="admin-title">Admin Panel</h2>
-      {user === "Admin" ? (
+      {username === "Admin" ? (
         <div className="admin-content">
           <NewPhone />
           <UserList />
@@ -23,4 +32,3 @@ function Admin() {
 }
 
 export default Admin;
-
