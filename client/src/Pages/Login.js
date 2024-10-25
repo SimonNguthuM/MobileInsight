@@ -4,6 +4,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
+import "../styles/login.css"
 
 const Login = () => {
   const [error, setError] = useState("");
@@ -19,36 +20,35 @@ const Login = () => {
       username: Yup.string().required("Username is required"),
       password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
     }),
-    onSubmit: async (values) => {
-      setError("");
-      try {
-        const response = await fetch("http://localhost:5555/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        });
+    // onSubmit: async (values) => {
+    //   setError("");
+    //   try {
+    //     const response = await fetch("http://localhost:5555/login", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(values),
+    //     });
 
-        if (response.ok) {
-          const data = await response.json();
-          Cookies.set("token", data.token);
-          Cookies.set("username", data.username);
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       Cookies.set("token", data.token);
+    //       Cookies.set("username", data.username);
 
-          handleLogin(data.username);
-          navigate("/");
-        } else {
-          setError("Invalid username or password");
-        }
-      } catch (error) {
-        setError("Failed to log in. Please try again.");
-      }
-    },
+    //       handleLogin(data.username);
+    //       navigate("/");
+    //     } else {
+    //       setError("Invalid username or password");
+    //     }
+    //   } catch (error) {
+    //     setError("Failed to log in. Please try again.");
+    //   }
+    // },
   });
 
   return (
     <div className="login-form">
-      <h2>Login</h2>
       <form onSubmit={formik.handleSubmit}>
-        <div>
+        <div className="input-group">
           <label htmlFor="username">Username:</label>
           <input
             type="text"
@@ -62,7 +62,7 @@ const Login = () => {
             <p style={{ color: "red" }}>{formik.errors.username}</p>
           ) : null}
         </div>
-        <div>
+        <div className="input-group">
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -76,7 +76,7 @@ const Login = () => {
             <p style={{ color: "red" }}>{formik.errors.password}</p>
           ) : null}
         </div>
-        <button type="submit">Login</button>
+        <button className="login-btn" type="submit">Login</button>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </div>

@@ -9,12 +9,12 @@ function Specifications() {
   const params = useParams();
   const profileId = params.id;
 
-  useEffect(() => {
-    fetch(`http://127.0.0.1:5555/products/${profileId}`)
-      .then((r) => r.json())
-      .then((data) => setProfile(data))
-      .catch((error) => console.error(error));
-  }, [profileId]);
+  // useEffect(() => {
+  //   fetch(`http://127.0.0.1:5555/products/${profileId}`)
+  //     .then((r) => r.json())
+  //     .then((data) => setProfile(data))
+  //     .catch((error) => console.error(error));
+  // }, [profileId]);
 
   // Function to handle adding new reviews
   const handleReviewAdded = (newReview) => {

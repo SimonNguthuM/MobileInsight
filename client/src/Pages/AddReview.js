@@ -10,37 +10,37 @@ const AddReviewForm = ({ onReviewAdded }) => {
   const [error, setError] = useState(null);
 
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const username = Cookies.get("username");
-      if (username) {
-        try {
-          const response = await fetch(`http://127.0.0.1:5555/users`);
-          const users = await response.json();
-          const loggedInUser = users.find((u) => u.username === username);
-          setUser(loggedInUser);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const username = Cookies.get("username");
+  //     if (username) {
+  //       try {
+  //         const response = await fetch(`http://127.0.0.1:5555/users`);
+  //         const users = await response.json();
+  //         const loggedInUser = users.find((u) => u.username === username);
+  //         setUser(loggedInUser);
+  //       } catch (error) {
+  //         console.error("Error fetching user data:", error);
+  //       }
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:5555/products");
-        const productsData = await response.json();
-        setProducts(productsData); 
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const response = await fetch("http://127.0.0.1:5555/products");
+  //       const productsData = await response.json();
+  //       setProducts(productsData); 
+  //     } catch (error) {
+  //       console.error("Error fetching products:", error);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

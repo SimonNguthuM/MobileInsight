@@ -1,7 +1,15 @@
 import React from "react";
 import "../Submit.css"
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+
+  const navigate = useNavigate();
+
+  const handleDiscoverClick = () => {
+    navigate("/about")
+
+  };
   return (
     <div id="intro" style={{backgroundColor:'#f8f9fa'}}>
       <p>
@@ -12,6 +20,8 @@ function Header() {
         curated selection and expert guidance ensure you find the perfect mobile
         phone. Explore, compare, and connect with confidence.
       </p>
+      
+<button onClick={handleDiscoverClick}>Discover</button>
     </div>
   );
 }

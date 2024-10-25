@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './SignUpForm.css';
 import { useNavigate } from "react-router-dom";
+import "../styles/signUpForm.css"
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -74,8 +74,8 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form className='signup-form' onSubmit={handleSubmit}>
+      <div className='input-group'>
         <label htmlFor="username">Username:</label>
         <input
           type="text"
@@ -86,7 +86,7 @@ const SignUpForm = () => {
           required
         />
       </div>
-      <div>
+      <div className='input-group'>
         <label htmlFor="password">Password:</label>
         <input
           type="password"
@@ -97,7 +97,7 @@ const SignUpForm = () => {
           required
         />
       </div>
-      <div>
+      <div className='input-group'>
         <label htmlFor="confirmPassword">Confirm Password:</label>
         <input
           type="password"
@@ -108,7 +108,7 @@ const SignUpForm = () => {
           required
         />
       </div>
-      <button type="submit" disabled={loading}>
+      <button className='signup-btn' type="submit" disabled={loading}>
         {loading ? 'Signing Up...' : 'Sign Up'}
       </button>
       {error && <p style={{ color: 'red' }} aria-live="assertive">{error}</p>}
