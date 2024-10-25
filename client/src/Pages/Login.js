@@ -20,29 +20,29 @@ const Login = () => {
       username: Yup.string().required("Username is required"),
       password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
     }),
-    // onSubmit: async (values) => {
-    //   setError("");
-    //   try {
-    //     const response = await fetch("http://localhost:5555/login", {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify(values),
-    //     });
+    onSubmit: async (values) => {
+      setError("");
+      try {
+        const response = await fetch("http://localhost:5555/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
 
-    //     if (response.ok) {
-    //       const data = await response.json();
-    //       Cookies.set("token", data.token);
-    //       Cookies.set("username", data.username);
+        if (response.ok) {
+          const data = await response.json();
+          Cookies.set("token", data.token);
+          Cookies.set("username", data.username);
 
-    //       handleLogin(data.username);
-    //       navigate("/");
-    //     } else {
-    //       setError("Invalid username or password");
-    //     }
-    //   } catch (error) {
-    //     setError("Failed to log in. Please try again.");
-    //   }
-    // },
+          handleLogin(data.username);
+          navigate("/");
+        } else {
+          setError("Invalid username or password");
+        }
+      } catch (error) {
+        setError("Failed to log in. Please try again.");
+      }
+    },
   });
 
   return (

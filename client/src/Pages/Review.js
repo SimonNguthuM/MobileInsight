@@ -37,15 +37,13 @@ const ReviewList = ({ reviews }) => {
       const data = await response.json();
       console.log('Updated review:', data);
 
-      // Update the reviews list locally after the patch request succeeds
-      // For simplicity, reload the page or update state directly here (you can implement better state handling if needed)
-
       setEditingReviewId(null); // Exit the edit mode
       window.location.reload();  // Reload to reflect changes (optional: can manage state to avoid reload)
     } catch (error) {
       console.error('Error:', error);
     }
   };
+
   const handleDelete = async (reviewId) => {
     try {
       const response = await fetch(`http://127.0.0.1:5555/reviews/${reviewId}`, {
@@ -57,11 +55,6 @@ const ReviewList = ({ reviews }) => {
       }
 
       console.log('Deleted review:', reviewId);
-
-      // Update the reviews list locally after the delete request succeeds
-      // This is where you would update the state to remove the deleted review.
-      // If you manage the state here, you'd want to filter it.
-      // You might need to implement a parent function to handle this.
       window.location.reload(); // Reload to reflect changes
     } catch (error) {
       console.error('Error:', error);
@@ -72,18 +65,57 @@ const ReviewList = ({ reviews }) => {
     return <p>No reviews available for this product.</p>;
   }
 
+  const containerStyle = {
+    padding: '20px', // Padding around the list
+    backgroundColor: '#f8f9fa', // Light background
+    borderRadius: '8px', // Rounded corners
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow
+    maxWidth: '600px', // Maximum width of the review list
+    margin: '0 auto', // Center the list
+  };
+
+  const titleStyle = {
+    textAlign: 'center', // Center title
+    color: '#007BFF', // Blue title
+    marginBottom: '20px', // Space below title
+  };
+
+  const reviewStyle = {
+    border: '1px solid #ccc', // Border for each review
+    borderRadius: '4px', // Rounded corners for reviews
+    padding: '10px', // Padding inside each review
+    marginBottom: '10px', // Space between reviews
+    backgroundColor: '#fff', // White background for reviews
+  };
+
+  const buttonStyle = {
+    margin: '5px', // Space around buttons
+    padding: '5px 10px', // Padding for buttons
+    borderRadius: '4px', // Rounded corners for buttons
+    border: 'none', // No border
+    backgroundColor: '#007BFF', // Blue background for buttons
+    color: '#fff', // White text for buttons
+    cursor: 'pointer', // Pointer cursor for buttons
+  };
+
+  const cancelButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: '#dc3545', // Red background for cancel button
+  };
+
   return (
-    <div>
-      <h2>Reviews</h2>
+    <div style={containerStyle}>
+      <h2 style={titleStyle}>Reviews</h2>
       <ul>
         {reviews.map((review) => (
-          <li key={review.id}>
+          <li key={review.id} style={reviewStyle}>
             {editingReviewId === review.id ? (
               // Edit Mode
               <div>
                 <textarea
                   value={updatedComment}
                   onChange={(e) => setUpdatedComment(e.target.value)}
+                  style={{ width: '100%', marginBottom: '10px' }} // Full width textarea
                 />
                 <input
                   type="number"
@@ -91,16 +123,17 @@ const ReviewList = ({ reviews }) => {
                   min="1"
                   max="5"
                   onChange={(e) => setUpdatedRating(e.target.value)}
+                  style={{ width: '100%', marginBottom: '10px' }} // Full width input
                 />
-                <button onClick={() => handleSave(review.id)}>Save</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <button onClick={() => handleSave(review.id)} style={buttonStyle}>Save</button>
+                <button onClick={handleCancel} style={cancelButtonStyle}>Cancel</button>
               </div>
             ) : (
               // Display Mode
               <div>
                 <strong>{review.user.username}</strong>: {review.comment} (Rating: {review.rating})
-                <button onClick={() => handleEdit(review)}>Edit</button>
-                <button onClick={() => handleDelete(review.id)}>Delete</button>
+                <button onClick={() => handleEdit(review)} style={buttonStyle}>Edit</button>
+                <button onClick={() => handleDelete(review.id)} style={cancelButtonStyle}>Delete</button>
               </div>
             )}
           </li>
