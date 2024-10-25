@@ -8,7 +8,7 @@ function PhoneCard({ pageOne, search }) {
       <div className="d-flex flex-wrap justify-content-center">
         {pageOne
         .filter((product)=>{
-          return search == "" ? product : product.name.includes(search);
+          return search === "" ? product : product.name.includes(search);
         })
         
         .map((product) => (
