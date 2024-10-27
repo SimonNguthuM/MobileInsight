@@ -10,13 +10,9 @@ with app.app_context():
     User.query.delete()
     Product.query.delete()
     Review.query.delete()
-    
+        
     users=[]
     reviews=[]
-    
-    Product(
-        
-    )
     
     for n in range(20):
         username = faker.name()
@@ -25,7 +21,7 @@ with app.app_context():
         user = User(username = username, password = hashed_pass )
         users.append(user)
         
-        review=Review(rating=random.randint(1, 5), comment=faker.sentence(nb_words=10), user_id=random.randint(1,20), product_id=random.randint(1,10))
+        review=Review(rating=random.randint(1, 5), comment=faker.sentence(nb_words=15), user_id=random.randint(1,20), product_id=random.randint(1,10))
         reviews.append(review)
         
     db.session.add_all(users)
@@ -103,6 +99,5 @@ with app.app_context():
         )
     
         db.session.add(product)
-
     
     db.session.commit()

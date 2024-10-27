@@ -1,6 +1,6 @@
 .user-list-container {
     padding: 20px;
-    background-color: #f8f9fa; /* Light background for contrast */
+    background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -12,8 +12,8 @@
 }
 
 .user-card {
-    background-color: #ffffff; /* White background for cards */
-    border: 1px solid #dee2e6; /* Light border */
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
     border-radius: 8px;
     padding: 15px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -22,9 +22,9 @@
 .user-card p {
     margin: 0;
     font-size: 14px;
-    color: #495057; /* Dark text color */
+    color: #495057;
 }
 
 .user-card strong {
-    color: #007bff; /* Primary color for emphasis */
+    color: #007bff;
 }

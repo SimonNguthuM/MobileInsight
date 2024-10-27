@@ -14,10 +14,10 @@ function Discover() {
       .then((products) => setPageOne(products));
   }, []);
 
-  const handleReviewAdded = (oneReview) => {
+  const handleReviewAdded = (newReview) => {
     setNewReview((prevState) => ({
       ...prevState,
-      reviews: prevState.reviews ? [...prevState.reviews, oneReview] : [oneReview],
+      reviews: prevState.reviews ? [...prevState.reviews, newReview] : [newReview],
     }));
   };
 
