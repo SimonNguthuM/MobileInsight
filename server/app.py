@@ -10,7 +10,9 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = os.urandom(24)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mobileInsight.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+#postgresql://mobileinsigt_user:fea8cm9SPhagvlbDUSMAXseQY5XMxaFJ@dpg-csfa9pggph6c73f1ip2g-a.oregon-postgres.render.com/mobileinsigt
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
